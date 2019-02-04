@@ -1,0 +1,162 @@
+﻿.alignBottom{
+    display: flex;
+    align-items: flex-end;
+}
+
+.errorDetail{
+    margin-top: 50px;
+
+    font-style: italic;
+}
+
+.button{
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+}
+
+#validationSummary{
+    margin-bottom: 15px;
+    color: red;
+}
+
+a{
+    color: blue;
+}
+
+nav ul li a{
+    color: white;
+    text-decoration: none;
+}
+
+header{
+    margin: 10px 5px 35px;
+
+    display: flex;
+}
+
+header img{
+    height: 72px;
+}
+
+header h1{
+    margin-left: 5px;
+}
+
+nav, footer{
+    box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.3);
+}
+
+nav{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 7px;
+
+    background-color: #2f4f4f;
+}
+
+nav ul{
+    margin-left: 10px;
+
+    display: flex;
+}
+
+nav ul li a{
+    display: block;
+    padding: 12px 17px;
+}
+
+nav ul li a:hover,
+nav ul li a:focus{
+    background-color: grey;
+}
+
+nav ul li > ul{
+    margin: 0;
+
+    background-color: #2f4f4f;
+    max-width: 200px;
+
+    position: absolute;
+    display: none;
+}
+
+nav ul li:hover > ul,
+nav ul li > ul:hover{
+    display: block;
+}
+
+/*IE ignores :focus-within; sliently fails*/
+nav ul li:focus-within > ul{
+    display: block;
+}
+
+.loginName{
+    text-align: right;
+    color: white;
+
+    margin-right: 5%;
+}
+
+#main{
+    margin: 25px 7px;
+}
+
+#main table{
+    margin: 10px 0;
+}
+
+#main th, #main td{
+    padding: 5px 10px;
+}
+
+#main table, #main th, #main td{
+    border: 1px solid black;
+}
+
+footer{
+    padding: 5px 7px;
+
+    background-color: #2f4f4f;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+@media only screen and (max-width: 630px){
+    nav{
+        font-size: 0.9em;
+    }
+
+    footer{
+        font-size: 0.75em;
+    }
+
+    main{
+        font-size: 0.8em;
+    }
+}
+
+@media only screen and (max-width: 460px){
+    .alignBottom{
+        display: block;
+    }
+
+    footer{
+        flex-direction: column;
+        text-align: center;
+    }
+
+    footer > *:not(:first-of-type){
+        margin-top: 15px;
+    }
+}

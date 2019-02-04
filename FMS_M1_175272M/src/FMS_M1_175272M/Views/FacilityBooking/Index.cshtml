@@ -1,0 +1,28 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Booking.BookingCollectionVM
+
+<h2>View Bookings</h2>
+
+<table>
+    <tr>
+        <th>Staff Name</th>
+        <th><a asp-controller="FacilityBooking" asp-action="Index" asp-route-sortOrder="@ViewBag.LocationSort">Location</a></th>
+        <th>Description</th>
+        <th><a asp-controller="FacilityBooking" asp-action="Index" asp-route-sortOrder="@ViewBag.BookingDate">Booking Date</a></th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Purpose</th>
+    </tr>
+
+    @foreach (var booking in Model.Bookings)
+    {
+        <tr>
+            <td>@booking.StaffName</td>
+            <td>@booking.Facility.Location</td>
+            <td>@booking.Facility.Description</td>
+            <td>@booking.BookingDate</td>
+            <td>@booking.StartTime.StartTime1</td>
+            <td>@booking.EndTime.EndTime1</td>
+            <td>@booking.Purpose</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/default.css" />
+    <link rel="stylesheet" href="~/css/layout.css" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <a asp-action="Index" asp-controller="Home">
+            <img src="~/image/Logo.png" alt="Logo" />
+        </a>
+
+        <h1>Regular<br /> Mountains</h1>
+    </header>
+
+    <nav>
+        <ul>
+            @{ 
+                if (!signInManager.IsSignedIn(User))
+                {
+                    ApplicationUser user = await userManager.GetUserAsync(User);
+                    <li><a asp-action="Login" asp-controller="Account">Login</a></li>
+                    <li><a asp-action="Register" asp-controller="Account">Register</a></li>
+                }
+                else
+                {
+                    <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+                }
+            }
+
+            <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+
+            <li>
+                <a asp-action="Index" asp-controller="FacilityType">Facility Type</a>
+
+                <ul>
+                    @*<li><a asp-action="Add" asp-controller="FacilityType">Add Facility Type</a></li>*@
+                    <li><a asp-action="Search" asp-controller="FacilityType">Search Facility Type</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a asp-action="Index" asp-controller="Facility">Facility</a>
+
+                <ul>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-action="Add" asp-controller="Facility">Add Facility</a></li>
+                    }
+
+                    <li><a asp-action="Search" asp-controller="Facility">Search Facility</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a asp-action="Index" asp-controller="FacilityBooking">Booking</a>
+
+                <ul>
+                    <li><a asp-action="Booking" asp-controller="FacilityBooking">Book Facility</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        @{
+            if (signInManager.IsSignedIn(User))
+            {
+                ApplicationUser user = await userManager.GetUserAsync(User);
+                <p class="loginName">Hi, @(user.StaffName)!</p>
+            }
+        }
+    </nav>
+
+    <div id="main">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <section>@await Html.PartialAsync("_LocationPartial")</section>
+        
+        <section>
+            <h3>Created By</h3>
+
+            <ul>
+                <li>Jimmy Wong</li>
+                <li>175272M</li>
+                <li>M1</li>
+            </ul>
+        </section>
+
+        <section class="alignBottom">
+            <p>Copyright &copy; @DateTime.Now.Year, FMS Pte Ltd</p>
+        </section>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+﻿@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+@model FMS_M1_175272M.Models.ViewModels.Facility.FacilityCollectionVM
+
+<h2>Facility</h2>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Location</th>
+        <th>Level</th>
+        <th>Type</th>
+        <th>Abr</th>
+        <th>Description</th>
+        <th>Capacity</th>
+        <th>Details</th>
+    </tr>
+
+    @foreach (var facility in Model.Facilities)
+    {
+        <tr>
+            <td>@facility.Id</td>
+            <td>@facility.Location</td>
+            <td>@facility.Level</td>
+            <td>@facility.Type.Type</td>
+            <td>@facility.Abr</td>
+            <td>@facility.Description</td>
+            <td>@facility.Capacity</td>
+            <td>@facility.Details</td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td><a asp-controller="Facility" asp-action="Edit" asp-route-id="@facility.Id">Edit</a></td>
+                <td><a asp-controller="Facility" asp-action="Delete" asp-route-id="@facility.Id">Delete</a></td>
+            }
+        </tr>
+    }
+</table>

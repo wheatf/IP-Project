@@ -1,0 +1,20 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.FacilityType.FacilityTypeCollectionVM
+
+<h2>Facility Type</h2>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+
+    @foreach (var facilityType in Model.FacilityTypes)
+    {
+        <tr>
+            <td>@facilityType.Id</td>
+            <td>@facilityType.Type</td>
+            <td>@facilityType.Description</td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,54 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Facility.FacilityDetailsVM
+
+<link rel="stylesheet" href="~/css/details.css" />
+
+<h2>Delete Facility</h2>
+
+<h3>Are you sure you want to delete?</h3>
+
+<form asp-controller="Facility" asp-action="Delete"
+      method="post">
+
+    <div asp-validation-summary="All" id="validationSummary"></div>
+
+    <section>
+        <dl>
+            @{
+                if (Model.Facility.Id != 0)
+                {
+                    <dt>@Html.DisplayNameFor(model => model.Facility.Id)</dt>
+                    <dd>@Model.Facility.Id</dd>
+                }
+            }
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.Location)</dt>
+            <dd>@Model.Facility.Location</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.Level)</dt>
+            <dd>@Model.Facility.Level</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.TypeId)</dt>
+            <dd>@Model.Facility.Type.Type</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.Abr)</dt>
+            <dd>@Model.Facility.Abr</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.Description)</dt>
+            <dd>@Model.Facility.Description</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.Capacity)</dt>
+            <dd>@Model.Facility.Capacity</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Facility.Details)</dt>
+            <dd>@Model.Facility.Details</dd>
+        </dl>
+    </section>
+
+    <p>
+        <input type="hidden" asp-for="Facility.Id" />
+
+        <button type="submit">Delete</button>
+    </p>
+
+    <p><a asp-controller="Facility" asp-action="Index">Back to View Facility</a></p>
+</form>

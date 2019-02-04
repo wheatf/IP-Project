@@ -1,0 +1,31 @@
+﻿#main form{
+    display: table;
+    border-spacing: 10px;
+}
+
+#main form p{
+    display: table-row;
+}
+
+#main form label{
+    display: table-cell;
+}
+
+#main form input{
+    display: table-cell;
+    width: 100%;
+}
+
+dl{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+dt{
+    width: 22%;
+}
+
+dd{
+    margin-left: auto;
+    width: 77%;
+}

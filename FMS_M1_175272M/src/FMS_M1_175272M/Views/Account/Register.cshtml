@@ -1,0 +1,51 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Account.RegisterVM
+
+<link rel="stylesheet" href="~/css/details.css" />
+
+<h3>Registration Page</h3>
+
+<p><a asp-controller="Account" asp-action="Login">Already have an account?</a></p>
+
+<form asp-controller="Account" asp-action="Register" 
+      method="post">
+
+    <div asp-validation-summary="All" id="validationSummary"></div>
+
+    <section>
+        <p>
+            <label asp-for="StaffName"></label>
+            <input asp-for="StaffName" value="@(Model.StaffName)" />
+        </p>
+
+        <p>
+            <label asp-for="Email"></label>
+            <input asp-for="Email" value="@(Model.Email)" />
+        </p>
+
+        <p>
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" value="@(Model.PhoneNumber)" />
+        </p>
+
+        <p>
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" value="@(Model.UserName)" />
+        </p>
+
+        <p>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" value="@(Model.Password)" />
+        </p>
+
+        <p>
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" />
+        </p>
+    </section>
+
+
+    <p>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </p>
+</form>

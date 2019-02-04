@@ -1,0 +1,66 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Facility.FacilityDetailsVM
+
+<link rel="stylesheet" href="~/css/details.css" />
+
+<h2>Add Facility</h2>
+
+<form asp-controller="Facility" asp-action="Add"
+      method="post">
+    
+    <div asp-validation-summary="All" id="validationSummary"></div>
+
+    <section>
+        @{
+            if (Model.Facility.Id != 0)
+            {
+                <p>
+                    <label asp-for="Facility.Id"></label>
+                    <input asp-for="Facility.Id" value="@(Model.Facility.Id)" disabled />
+                    <input asp-for="Facility.Id" type="hidden" />
+                </p>
+            }
+        }
+
+        <p>
+            <label asp-for="Facility.Location"></label>
+            <input asp-for="Facility.Location" value="@(Model.Facility.Location)" />
+        </p>
+
+        <p>
+            <label asp-for="Facility.Level"></label>
+            <input asp-for="Facility.Level" value="@(Model.Facility.Level)" />
+        </p>
+
+        <p>
+            <label asp-for="Facility.TypeId"></label>
+            <select asp-for="Facility.TypeId" asp-items="Model.FacilityTypes"></select>
+        </p>
+
+        <p>
+            <label asp-for="Facility.Abr"></label>
+            <input asp-for="Facility.Abr" value="@(Model.Facility.Abr)" />
+        </p>
+
+        <p>
+            <label asp-for="Facility.Description"></label>
+            <textarea asp-for="Facility.Description">@(Model.Facility.Description)</textarea>
+        </p>
+
+        <p>
+            <label asp-for="Facility.Capacity"></label>
+            <input asp-for="Facility.Capacity" value="@(Model.Facility.Capacity)" />
+        </p>
+
+        <p>
+            <label asp-for="Facility.Details"></label>
+            <textarea asp-for="Facility.Details">@(Model.Facility.Details)</textarea>
+        </p>
+    </section>
+
+    <p>
+        <button type="submit">Create</button>
+        <button type="reset">Reset</button>
+    </p>
+
+    <p><a asp-controller="Facility" asp-action="Index">Back to View Facility</a></p>
+</form>

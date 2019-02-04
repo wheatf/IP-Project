@@ -1,0 +1,52 @@
+﻿@model int
+
+<h2>Error!</h2>
+
+@{
+    string statusCode;
+
+    switch (Model)
+    {
+        case 400:
+            <p>Please check the URL path.</p>
+            statusCode = "400 Bad Request";
+            break;
+
+        case 401:
+            <p>Please try to log in again.</p>
+            statusCode = "401 Unauthorized";
+            break;
+
+        case 403:
+            <p>You do not have permission to view this page.</p>
+            statusCode = "403 Forbidden";
+            break;
+
+        case 404:
+            <p>Please check the URL path.</p>
+            statusCode = "404 Not Found";
+            break;
+
+        case 405:
+            <p>Invalid Request.<br />Please use the related webpage instead.</p>
+            statusCode = "405 Method Not Allowed";
+            break;
+
+        case 408:
+            <p>Something took too long to do it.<br />Please try again.</p>
+            statusCode = "408 Request Timeout";
+            break;
+
+        case 500:
+            <p>Our server ran into an issue.<br />We are trying to fix it as soon as possible.</p>
+            statusCode = "500 Internal Server Error";
+            break;
+
+        default:
+            <p>Something bad happened. Try again later.</p>
+            statusCode = "???";
+            break;
+    }
+
+    <p class="errorDetail">HTTP Status Code: @statusCode</p>
+}

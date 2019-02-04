@@ -1,0 +1,58 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Booking.BookingDetailsVM
+
+<link rel="stylesheet" href="~/css/details.css" />
+
+<h2>Facility Booking</h2>
+
+<form asp-controller="FacilityBooking" asp-action="Booking"
+      method="post">
+
+    <div asp-validation-summary="All" id="validationSummary"></div>
+
+    <section>
+        @{
+            if (Model.Booking.Id != 0)
+            {
+                <p>
+                    <label asp-for="Booking.Id"></label>
+                    <input asp-for="Booking.Id" value="@(Model.Booking.Id)" disabled />
+                    <input asp-for="Booking.Id" type="hidden" />
+                </p>
+            }
+        }
+
+        <p>
+            <label asp-for="Booking.Facility"></label>
+            <input asp-for="Booking.Facility" value="@(Model.Booking.Facility)" />
+        </p>
+
+        <p>
+            <label asp-for="Booking.BookingDate"></label>
+            <input asp-for="Booking.BookingDate" value="@(Model.Booking.BookingDate)" />
+        </p>
+
+        <p>
+            <label asp-for="Booking.StartTimeId"></label>
+            <select asp-for="Booking.StartTimeId" asp-items="Model.StartTimes"></select>
+        </p>
+
+        <p>
+            <label asp-for="Booking.EndTimeId"></label>
+            <select asp-for="Booking.EndTimeId" asp-items="Model.EndTimes"></select>
+        </p>
+
+        <p>
+            <label asp-for="Booking.Purpose"></label>
+            <input asp-for="Booking.Purpose" value="@(Model.Booking.Purpose)" />
+        </p>
+    </section>
+
+    <p>
+        <button type="submit">Book Facility</button>
+        <button type="reset">Reset</button>
+    </p>
+
+    <p>
+        <a asp-controller="FacilityBooking" asp-action="Index">Back to View Booking</a>
+    </p>
+</form>
