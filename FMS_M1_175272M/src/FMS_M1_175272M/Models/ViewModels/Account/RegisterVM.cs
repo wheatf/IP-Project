@@ -16,6 +16,7 @@ namespace FMS_M1_175272M.Models.ViewModels.Account
         [Required(ErrorMessage = "Please enter your phone number!")]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
+        [RegularExpression("^[0-9]{8}$", ErrorMessage = "Phone number must be exactly 8-digit long!")]
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Please enter an username!")]

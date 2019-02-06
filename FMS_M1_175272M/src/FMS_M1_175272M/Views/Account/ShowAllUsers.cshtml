@@ -1,0 +1,38 @@
+﻿@inject UserManager<ApplicationUser> userManager
+
+@model FMS_M1_175272M.Models.ViewModels.Account.UserCollectionVM
+
+<h2>Users</h2>
+
+<table>
+    <tr>
+        <th>User Name</th>
+        <th>Staff Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Role</th>
+    </tr>
+
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.StaffName</td>
+            <td>@user.Email</td>
+            <td>@user.PhoneNumber</td>
+            @if (await userManager.IsInRoleAsync(user, "Staff"))
+            {
+                <td>Staff</td>
+            }
+            else
+            {
+                <td>Admin</td>
+            }
+            <td><a asp-controller="Account" asp-action="AdminEdit" asp-route-id="@user.Id">Edit</a></td>
+            @if (await userManager.IsInRoleAsync(user, "Staff"))
+            {
+                <td><a asp-controller="Account" asp-action="MakeAdmin" asp-route-id="@user.Id">Make Admin</a></td>
+            }
+        </tr>
+    }
+</table>

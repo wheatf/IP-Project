@@ -63,8 +63,19 @@
 
                 <ul>
                     <li><a asp-action="Booking" asp-controller="FacilityBooking">Book Facility</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-action="Search" asp-controller="FacilityBooking">Search Booking</a></li>
+                    }
                 </ul>
             </li>
+
+            @if (User.IsInRole("Admin"))
+            { 
+                <li>
+                    <a asp-action="ShowAllUsers" asp-controller="Account">Show All Users</a>
+                </li>
+            }
         </ul>
 
         @{

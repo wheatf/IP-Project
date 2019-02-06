@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using FMS_M1_175272M.Models.Account;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -72,7 +73,7 @@ namespace FMS_M1_175272M.Controllers
             ViewBag.Title = "Make Booking";
 
             BookingDetailsVM vm = new BookingDetailsVM(new Booking(),
-                                                        getFacilityTypes(),
+                                                        getFacilities(),
                                                         getStartTimes(),
                                                         getEndTimes());
 
@@ -83,6 +84,26 @@ namespace FMS_M1_175272M.Controllers
         public async Task<IActionResult> Booking(BookingDetailsVM vm)
         {
             ViewBag.Title = "Make Booking";
+
+            if (vm.Booking.StartTimeId > vm.Booking.EndTimeId)
+            {
+                ModelState.AddModelError("", "Start Time must be before End Time!");
+
+                vm.Facilities = getFacilities();
+                vm.StartTimes = getStartTimes();
+                vm.EndTimes = getEndTimes();
+                return View(vm);
+            }
+
+            if (vm.Booking.BookingDate < DateTime.Now)
+            {
+                ModelState.AddModelError("", "Booking Date cannot be before today!");
+
+                vm.Facilities = getFacilities();
+                vm.StartTimes = getStartTimes();
+                vm.EndTimes = getEndTimes();
+                return View(vm);
+            }
 
             if (ModelState.IsValid)
             {
@@ -102,41 +123,72 @@ namespace FMS_M1_175272M.Controllers
                 }
             }
 
-            vm.Facilities = getFacilityTypes();
+            vm.Facilities = getFacilities();
             vm.StartTimes = getStartTimes();
             vm.EndTimes = getEndTimes();
 
             return View(vm);
         }
 
-        //public IActionResult Search(SearchVM vm = null)
-        //{
-        //    ViewBag.Title = "Search Bookings";
-
-        //    var bookings = context.
-        //                    Booking.
-        //                    Include(booking => booking.Facility).
-        //                    Include(booking => booking.StartTime).
-        //                    Include(booking => booking.EndTime).
-        //                    AsNoTracking();
-
-        //    if (vm != null && !vm.ClearSearch)
-        //    {
-        //        if (!string.IsNullOrWhiteSpace(vm.SearchFor))
-        //        {
-        //            bookings = bookings.
-        //                        Where(booking => booking.)
-        //        }
-        //    }
-        //}
-
-        private ICollection<SelectListItem> getFacilityTypes()
+        public IActionResult Search(SearchVM vm, string sortOrder)
         {
-            return context.FacilityType.
-                    Select(type => new SelectListItem()
+            ViewBag.Title = "Search Bookings";
+
+            ViewBag.LocationSort = string.IsNullOrEmpty(sortOrder) ? "location_desc" : "";
+            ViewBag.BookingDate = sortOrder == "bookingDate_asc" ? "bookingDate_desc" : "bookingDate_asc";
+
+            var bookings = context.
+                            Booking.
+                            Include(booking => booking.Facility).
+                            Include(booking => booking.StartTime).
+                            Include(booking => booking.EndTime).
+                            AsNoTracking();
+
+            if (vm != null && !vm.ClearSearch)
+            {
+                if (!string.IsNullOrWhiteSpace(vm.SearchFor))
+                {
+                    bookings = bookings.
+                                Where(booking => booking.StaffName.IndexOf(vm.SearchFor.Trim(),
+                                                                            StringComparison.OrdinalIgnoreCase) > -1);
+                }
+            }
+            else
+            {
+                vm = new SearchVM();
+            }
+
+            switch (sortOrder)
+            {
+                case "location_desc":
+                    bookings = bookings.OrderByDescending(booking => booking.Facility.Location);
+                    break;
+
+                case "bookingDate_asc":
+                    bookings = bookings.OrderBy(booking => booking.BookingDate);
+                    break;
+
+                case "bookingDate_desc":
+                    bookings = bookings.OrderByDescending(booking => booking.BookingDate);
+                    break;
+
+                default:
+                    bookings = bookings.OrderBy(booking => booking.Facility.Location);
+                    break;
+            }
+
+            vm.Bookings = bookings.ToList();
+
+            return View(vm);
+        }
+
+        private ICollection<SelectListItem> getFacilities()
+        {
+            return context.Facility.
+                    Select(facility => new SelectListItem()
                     {
-                        Value = type.Id.ToString(),
-                        Text = type.Type
+                        Value = facility.Id.ToString(),
+                        Text = facility.Description
                     })
                     .ToList();
         }

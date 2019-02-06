@@ -23,12 +23,13 @@
 
         <p>
             <label asp-for="Booking.Facility"></label>
-            <input asp-for="Booking.Facility" value="@(Model.Booking.Facility)" />
+            @*<input asp-for="Booking.Facility" value="@(Model.Booking.Facility)" />*@
+            <select asp-for="Booking.FacilityId" asp-items="Model.Facilities"></select>
         </p>
 
         <p>
             <label asp-for="Booking.BookingDate"></label>
-            <input asp-for="Booking.BookingDate" value="@(Model.Booking.BookingDate)" />
+            <input asp-for="Booking.BookingDate" value="@(Model.Booking.BookingDate)" type="date"/>
         </p>
 
         <p>

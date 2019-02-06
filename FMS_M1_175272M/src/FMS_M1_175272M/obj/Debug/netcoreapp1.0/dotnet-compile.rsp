@@ -227,8 +227,11 @@ D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\FacilityType.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\StartTime.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\Account\ApplicationUser.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\Account\UserDbContext.cs
+D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Account\AdminEditVM.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Account\LoginVM.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Account\RegisterVM.cs
+D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Account\ResetPasswordVM.cs
+D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Account\UserCollectionVM.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Booking\BookingCollectionVM.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Booking\BookingDetailsVM.cs
 D:\C# Repo\FMS_M1_175272M\src\FMS_M1_175272M\Models\ViewModels\Booking\SearchVM.cs

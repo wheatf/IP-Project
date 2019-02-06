@@ -1,0 +1,42 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Booking.SearchVM
+
+<h2>Search Bookings</h2>
+
+<form asp-controller="FacilityBooking" asp-action="Search" method="get">
+    <p>
+        <label for="@Model.SearchFor">
+            <span>Enter the Staff Name:</span>
+            <input asp-for="SearchFor" value="@(Model.SearchFor)" />
+        </label>
+    </p>
+
+    <p>
+        <input type="submit" value="Search" />
+        <button name="ClearSearch" type="submit" value="true">Clear</button>
+    </p>
+</form>
+
+<table>
+    <tr>
+        <th>Staff Name</th>
+        <th><a asp-controller="FacilityBooking" asp-action="Search" asp-route-sortOrder="@ViewBag.LocationSort" asp-route-SearchFor="@Model.SearchFor">Location</a></th>
+        <th>Description</th>
+        <th><a asp-controller="FacilityBooking" asp-action="Search" asp-route-sortOrder="@ViewBag.BookingDate" asp-route-SearchFor="@Model.SearchFor">Booking Date</a></th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Purpose</th>
+    </tr>
+
+    @foreach (var booking in Model.Bookings)
+    {
+        <tr>
+            <td>@booking.StaffName</td>
+            <td>@booking.Facility.Location</td>
+            <td>@booking.Facility.Description</td>
+            <td>@booking.BookingDate</td>
+            <td>@booking.StartTime.StartTime1</td>
+            <td>@booking.EndTime.EndTime1</td>
+            <td>@booking.Purpose</td>
+        </tr>
+    }
+</table>

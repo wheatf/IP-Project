@@ -57,9 +57,8 @@ namespace FMS_M1_175272M.Controllers
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Staff");
-                    await signInManager.SignInAsync(user, false);
 
-                    return RedirectToAction("Index", "Home");
+                    return View("RegisterSuccess");
                 }
                 else
                 {
@@ -121,6 +120,157 @@ namespace FMS_M1_175272M.Controllers
             await signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            ViewBag.Title = "Reset Password";
+
+            return View(new ResetPasswordVM());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM vm)
+        {
+            ViewBag.Title = "Reset Password";
+
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user;
+
+                if(await userManager.FindByEmailAsync(vm.Identification) != null)
+                {
+                    user = await userManager.FindByEmailAsync(vm.Identification);
+                }
+                else if(await userManager.Users.FirstOrDefaultAsync(u => u.UserName == vm.Identification) != null)
+                {
+                    user = await userManager.Users.FirstOrDefaultAsync(u => u.UserName == vm.Identification);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User Name/Email cannot be found! Try again.");
+                    return View(vm);
+                }
+
+                string resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await userManager.ResetPasswordAsync(user, resetToken, vm.Password);
+
+                if (result.Succeeded)
+                {
+                    return View("ResetPasswordSuccess");
+                }
+                else
+                {
+                    foreach(IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                }
+            }
+
+            return View(vm);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult ShowAllUsers()
+        {
+            ViewBag.Title = "List of Users";
+
+            UserCollectionVM vm = new UserCollectionVM(userManager.Users.
+                                                        Include(user => user.Roles).
+                                                        AsNoTracking().
+                                                        ToList());
+
+            return View(vm);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> AdminEdit(string id)
+        {
+            ViewBag.Title = "Edit User";
+
+            if(id != null)
+            {
+                var userToEdit = await userManager.FindByIdAsync(id);
+
+                if(userToEdit != null)
+                {
+                    AdminEditVM vm = new AdminEditVM();
+                    vm.Id = userToEdit.Id;
+                    vm.UserName = userToEdit.UserName;
+                    vm.StaffName = userToEdit.StaffName;
+                    vm.Email = userToEdit.Email;
+                    vm.PhoneNumber = userToEdit.PhoneNumber;
+                    
+                    if(await userManager.IsInRoleAsync(userToEdit, "Staff"))
+                    {
+                        vm.Role = "Staff";
+                    }
+                    else
+                    {
+                        vm.Role = "Admin";
+                    }
+
+                    return View(vm);
+                }
+            }
+
+            return NotFound();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> AdminEdit(AdminEditVM vm)
+        {
+            ViewBag.Title = "Edit User";
+
+            if (ModelState.IsValid)
+            {
+                var userToEdit = await userManager.FindByIdAsync(vm.Id);
+                userToEdit.UserName = vm.UserName;
+                userToEdit.StaffName = vm.StaffName;
+                userToEdit.Email = vm.Email;
+                userToEdit.PhoneNumber = vm.PhoneNumber;
+
+                var result = await userManager.UpdateAsync(userToEdit);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ShowAllUsers", "Account");
+                }
+                else
+                {
+                    foreach(IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                }
+            }
+
+            return View(vm);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> MakeAdmin(string id)
+        {
+            if(id != null)
+            {
+                var userToMakeAdmin = await userManager.FindByIdAsync(id);
+
+                if(userToMakeAdmin != null && await userManager.IsInRoleAsync(userToMakeAdmin, "Staff"))
+                {
+                    await userManager.RemoveFromRoleAsync(userToMakeAdmin, "Staff");
+                    await userManager.AddToRoleAsync(userToMakeAdmin, "Admin");
+
+                    return RedirectToAction("ShowAllUsers", "Account");
+                }
+            }
+
+            return NotFound();
         }
     }
 }

@@ -1,0 +1,47 @@
+﻿@model FMS_M1_175272M.Models.ViewModels.Account.AdminEditVM
+
+<link rel="stylesheet" href="~/css/details.css" />
+
+<h2>Edit User</h2>
+
+<form asp-controller="Account" asp-action="AdminEdit"
+      method="post">
+
+    <div asp-validation-summary="All" id="validationSummary"></div>
+
+    <section>
+        <p>
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" value="@(Model.UserName)"/>
+        </p>
+
+        <p>
+            <label asp-for="StaffName"></label>
+            <input asp-for="StaffName" value="@(Model.StaffName)" />
+        </p>
+
+        <p>
+            <label asp-for="Email"></label>
+            <input asp-for="Email" value="@(Model.Email)" />
+        </p>
+
+        <p>
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" value="@(Model.PhoneNumber)" />
+        </p>
+
+        <p>
+            <label asp-for="Role"></label>
+            <input asp-for="Role" value="@(Model.Role)" disabled/>
+            <input asp-for="Role" type="hidden" />
+        </p>
+    </section>
+
+    <p>
+        <input asp-for="Id" type="hidden" />
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+    </p>
+
+    <p><a asp-controller="Account" asp-action="ShowAllUsers">Back to list of users</a></p>
+</form>
